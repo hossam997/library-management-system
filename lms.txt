@@ -1,0 +1,98 @@
+CREATE TABLE Book_Details  
+(  
+    ISBN_Codeint PRIMARY KEY,  
+    Book_Titlevarchar(100),  
+    Language varchar(10),   
+    No_Copies_Actualint,  
+    No_Copies_Currentint,   
+    Publication_yearint  
+) 
+
+CREATE TABLE Borrower_Details  
+(  
+    Borrower_Idint PRIMARY KEY,  
+    Book_Idint,  
+    Borrowed_From date,  
+    Borrowed_TO date,  
+    Actual_Return_Date date,  
+    Issued_byint  
+) 
+
+CREATE TABLE Staff_Details  
+(  
+    Staff_Idint PRIMARY KEY,  
+    Staff_Namevarchar(50),  
+    Password varchar(16),  
+    Is_Adminbinary_float,  
+    Designation varchar(20)  
+) 
+
+Create TABLE Student_Details  
+(  
+    Student_Idvarchar(10) PRIMARY KEY,  
+    Student_Namevarchar(50),  
+    Sex Varchar(20),  
+    Date_Of_Birth date,  
+    Borrower_Idint,  
+    Department varchar(10),  
+    contact_Numbervarchar(11)  
+)  
+
+Create Table Shelf_Details  
+(  
+    Shelf_idint PRIMARY KEY,  
+    Shelf_Noint,  
+    Floor_Noint  
+); 
+
+select student.student_id, student.student_name, book.Book_Title, staff.staff_name, b.Borrowed_To, shelf.shelf_No  
+fromstudent_Detailsstudent, Staff_Detailsstaff, Borrower_Detailsb, book_detailsbook, Shelf_Details shelf  
+wherestudent.Borrower_id = b.Borrower_id and book.ISBN_Code = b.book_id and b.Issued_by = staff.Staff_id and book.Shelf_Id = shelf.Shelf_Id;
+
+select student.student_id, student.student_name, book.Book_Title, staff.staff_name, b.Borrowed_To  
+fromstudent_Detailsstudent, Staff_Detailsstaff, Borrower_Detailsb, book_details book  
+wherestudent.Borrower_id = b.Borrower_id and book.ISBN_Code = b.book_id and b.Issued_by = staff.Staff_id;
+
+select Borrower_Details.Borrower_id,Book_Details.Book_title  
+fromBorrower_Details,Book_Details  
+whereBorrower_Details.book_id=Book_Details.ISBN_Code 
+
+INSERT INTO Book_details  
+VALUES('0006','Programming Concept','English',2,20,15,2,2009);  
+
+Insert into BORROWER_DETAILS VALUES(1,0004,'01-Aug-2020','7-Aug-2020','7-Aug-2020',1)  
+Insert into BORROWER_DETAILS VALUES(2,6,'02-Aug-2019','8-Aug-2019',NULL,1) 
+
+ALTER TABLE Borrower_details ADD CONSTRAINT Book_Id_FK FOREIGN KEY(Book_Id) REFERENCES Book_Details(ISBN_Code);
+ 
+ALTER TABLE Borrower_Details  
+ADD CONSTRAINT Issued_by_FK FOREIGN KEY(Issued_by) REFERENCES Staff_Details(Staff_Id); 
+
+Insert into STAFF_DETAILS values (1,'Tarek Hossain','1234asd',0,'Lib_mgr');  
+Insert into STAFF_DETAILS values (2,'Md.Kishor Morol','iloveyou',0,'Lib_clr');  
+
+
+Insert into STUDENT_DETAILS values ('13-23059-1','Ahmed,Ali','Male','05-Oct-1995',1,'CSSE','01681849871');  
+Insert into STUDENT_DETAILS values ('13-23301-1','MOrol MD.Kishor','Male','03-Jan-1994',2,'CSE','01723476554');  
+
+ALTER TABLE student_details  
+ADD CONSTRAINT borrower_id_FK FOREIGN KEY(Borrower_Id) REFERENCES Borrower_Details(Borrower_Id); 
+
+Insert into Shelf_DetailsValues(1, 1, 1);  
+Insert into Shelf_DetailsValues(2, 2, 10001);  
+Insert into Shelf_DetailsValues(3, 1, 10002); 
+
+ALTER TABLE Book_Details  
+ADD(Shelf_Idint);  
+  
+UPDATE Book_Details set Shelf_Id = 1  
+where ISBN_CODE = 4;  
+  
+UPDATE Book_Details set Shelf_Id = 2  
+where ISBN_CODE = 6;  
+  
+ALTER TABLE Book_Details  
+ADD CONSTRAINT Shelf_Id_FK FOREIGN KEY(Shelf_Id) REFERENCES Shelf_Details(Shelf_Id);
+
+
+
